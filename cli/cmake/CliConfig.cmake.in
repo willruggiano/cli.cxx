@@ -1,0 +1,18 @@
+set(CLI_VERSION @PROJECT_VERSION@)
+set(CLI_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(CLI_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(CLI_VERSION_PATCH @PROJECT_VERSION_PATCH@)
+
+@PACKAGE_INIT@
+
+set_and_check(CLI_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+
+include(${CMAKE_CURRENT_LIST_DIR}/CliTargets.cmake)
+
+set(CLI_LIBRARY cli::cli)
+check_required_components(cli)
+
+set(CLI_LIBRARIES cli::cli)
+set(CLI_FOUND 1)
+
+# vim: ft=cmake

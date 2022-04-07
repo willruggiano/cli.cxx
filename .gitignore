@@ -1,3 +1,7 @@
+# Output
+build
+result
+
 # Prerequisites
 *.d
 
@@ -30,3 +34,13 @@
 *.exe
 *.out
 *.app
+
+# Clangd
+.cache
+compile_commands.json
+
+# Direnv
+.direnv
+
+# Pre-commit
+.pre-commit-config.yaml
