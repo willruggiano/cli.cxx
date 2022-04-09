@@ -9,21 +9,24 @@
 #include <sstream>
 #include <string>
 #include <tuple>
+#include <type_traits>
 
 namespace cli {
 namespace detail {
 
 template<typename T>
-concept required = requires
-{
-  T::required;
-};
+struct is_required : std::true_type
+{};
 
 template<typename T>
-constexpr bool is_required_v = false;
+struct is_required<std::optional<T>> : std::false_type
+{};
 
-template<required T>
-constexpr bool is_required_v<T> = T::required;
+template<typename T>
+constexpr bool is_required_v = is_required<typename T::type>::value;
+
+template<typename T>
+concept required = is_required_v<T>;
 
 } // namespace detail
 
@@ -77,7 +80,12 @@ public:
       // TODO: We'll need to specialize this for flags.
       if (*it == option_type::name) {
         std::stringstream ss;
-        ss << *(it + 1), ss >> t.value_;
+        if (it + 1 != args.end()) {
+          ss << *(it + 1), ss >> t.value_;
+        } else if (detail::is_required_v<T>) {
+          throw std::runtime_error(std::string{ "required argument '" } + T::name +
+                                   std::string{ "' missing value" });
+        }
         args.erase(it, ++it);
         return args;
       }

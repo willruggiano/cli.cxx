@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <optional>
 #include <vector>
 
 namespace cli {
@@ -15,7 +16,7 @@ namespace cli {
  */
 template<typename T>
 std::istream&
-operator>>(std::istream& is, std::vector<T>& v)
+operator>>(std::istream& is, std::vector<T>& out)
 {
   if (is) {
     while (true) {
@@ -23,7 +24,7 @@ operator>>(std::istream& is, std::vector<T>& v)
       if (auto c = is.peek(); c == ',') {
         is.ignore(1, ',');
       } else if (T t; is >> t) {
-        v.push_back(t);
+        out.push_back(t);
       } else {
         return (is.setstate(std::ios_base::failbit), is);
       }
@@ -31,6 +32,18 @@ operator>>(std::istream& is, std::vector<T>& v)
   } else {
     return is;
   }
+}
+
+template<typename T>
+std::istream&
+operator>>(std::istream& is, std::optional<T>& out)
+{
+  if (is) {
+    if (T t; is >> t) {
+      out = t;
+    }
+  }
+  return is;
 }
 
 }

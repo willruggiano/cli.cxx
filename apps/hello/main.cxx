@@ -1,12 +1,7 @@
-#include <cli/commands.hxx>
-#include <cli/options.hxx>
-#include <cli/parser.hxx>
+#include <cli/cli.hxx>
 
-#include <cstdlib>
 #include <iostream>
 #include <string>
-
-using namespace cli;
 
 struct Name
 {
@@ -19,7 +14,7 @@ class Hello
 {
 public:
   using type = Hello;
-  using options = Options<Name>;
+  using options = cli::Options<Name>;
 
   Hello() = default;
   Hello(std::string name)
@@ -32,15 +27,4 @@ private:
   std::string name_;
 };
 
-int
-main(int argc, char* argv[])
-{
-  try {
-    auto cmd = parse<Hello>(argc, argv);
-    (*cmd)();
-    return EXIT_SUCCESS;
-  } catch (const std::exception& e) {
-    std::cerr << "e.what(): " << e.what() << std::endl;
-    return EXIT_FAILURE;
-  }
-}
+CLI_MAIN(Hello)

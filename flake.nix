@@ -74,6 +74,7 @@
         nativeBuildInputs = with pkgs; [
           clang-tools
           cmake
+          lldb_12 # for debugging
         ];
         buildInputs = with pkgs; [
           doctest

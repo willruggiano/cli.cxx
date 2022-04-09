@@ -16,12 +16,16 @@ public:
   watch_method(std::string method_name)
     : method_name_(method_name)
   {
+#ifdef DEBUG
     std::cerr << type_name<T>() << "::" << method_name_ << ": ..." << std::endl;
+#endif
   }
 
   ~watch_method()
   {
+#ifdef DEBUG
     std::cerr << type_name<T>() << "::" << method_name_ << ": done." << std::endl;
+#endif
   }
 
   friend std::ostream& operator<<(std::ostream& os, const type& t)
@@ -30,7 +34,7 @@ public:
   }
 
 private:
-  std::string_view method_name_;
+  std::string method_name_;
 };
 
 }

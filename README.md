@@ -4,9 +4,11 @@
 
 - [x] Commands
 - [x] Options
-- [ ] Flags
+    - [x] Optional arguments use std::optional<T>
+    - [ ] Settle on syntax for multiword options, e.g. --multi foo bar baz
+    - [ ] Validation
+    - [ ] Flags
 - [ ] Subcommands
-- [ ] Argument validation
 - [ ] Mutual exclusion
 - [ ] Parser hooks?
 - [ ] Help text
