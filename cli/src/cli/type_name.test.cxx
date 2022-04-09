@@ -1,7 +1,9 @@
 #include "cli/type_name.hxx"
 
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
+
+#include <iostream>
+#include <string>
 
 using namespace cli;
 

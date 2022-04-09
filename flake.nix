@@ -13,9 +13,9 @@
   } @ inputs:
     utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages."${system}";
-      cli = pkgs.callPackage ./cli {};
-      aws = pkgs.callPackage ./aws {inherit cli;};
-      hello = pkgs.callPackage ./apps/hello {inherit cli;};
+      cli-cxx = pkgs.callPackage ./cli {};
+      aws = pkgs.callPackage ./apps/aws {inherit cli-cxx;};
+      hello = pkgs.callPackage ./apps/hello {inherit cli-cxx;};
     in rec {
       apps = {
         aws = utils.lib.mkApp {
@@ -73,9 +73,11 @@
             };
           };
         };
+
+        tests = cli-cxx;
       };
 
-      devShell = pkgs.mkShell {
+      devShells.default = pkgs.mkShell {
         name = "cli.cxx";
         nativeBuildInputs = with pkgs; [
           clang-tools
@@ -88,8 +90,12 @@
         inherit (self.checks."${system}".pre-commit) shellHook;
       };
 
+      overlays.default = final: prev: {
+        inherit cli-cxx;
+      };
+
       packages = {
-        inherit cli aws hello;
+        inherit cli-cxx aws hello;
       };
     });
 }

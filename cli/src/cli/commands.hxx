@@ -16,7 +16,7 @@ struct make_impl_;
 template<typename T>
 struct make_impl_<T>
 {
-  static std::unique_ptr<T> method() { throw std::runtime_error("impossible condition"); }
+  static std::unique_ptr<T> method() { return std::make_unique<T>(); }
 
   template<typename... As>
   static std::unique_ptr<T> method(As&&... as)
@@ -64,7 +64,8 @@ public:
   {
     detail::watch_method<type> wm{ "operator>>(...)" };
     // Parse options; NOTE: that this operation MODIFIES the args vector!
-    auto options = std::make_unique<typename T::options>();
+    using options_type = typename T::options;
+    auto options = std::make_unique<options_type>();
     args >> *options;
     // Here is where we actually construct the command/subcommand.
     // TODO: How do we want to handle subcommands?

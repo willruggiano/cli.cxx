@@ -1,11 +1,11 @@
 {
   stdenv,
   cmake,
-  cli,
+  cli-cxx,
 }:
 stdenv.mkDerivation {
   name = "hello";
   src = ./.;
   nativeBuildInputs = [cmake];
-  buildInputs = [cli];
+  buildInputs = [cli-cxx];
 }

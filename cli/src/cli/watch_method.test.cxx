@@ -1,6 +1,5 @@
 #include "cli/watch_method.hxx"
 
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
 #include <sstream>

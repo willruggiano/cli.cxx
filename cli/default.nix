@@ -9,4 +9,5 @@ stdenv.mkDerivation {
   src = ./.;
   nativeBuildInputs = [cmake];
   buildInputs = [doctest];
+  doCheck = true;
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cli/traits.hxx"
 #include "cli/type_name.hxx"
 
 #include <iostream>
@@ -16,16 +17,16 @@ public:
   watch_method(std::string method_name)
     : method_name_(method_name)
   {
-#ifdef DEBUG
-    std::cerr << type_name<T>() << "::" << method_name_ << ": ..." << std::endl;
-#endif
+    if (config::enable_watch_methods) {
+      std::cerr << type_name<T>() << "::" << method_name_ << ": ..." << std::endl;
+    }
   }
 
   ~watch_method()
   {
-#ifdef DEBUG
-    std::cerr << type_name<T>() << "::" << method_name_ << ": done." << std::endl;
-#endif
+    if (config::enable_watch_methods) {
+      std::cerr << type_name<T>() << "::" << method_name_ << ": done." << std::endl;
+    }
   }
 
   friend std::ostream& operator<<(std::ostream& os, const type& t)

@@ -48,6 +48,12 @@ public:
     return *this;
   }
 
+  template<typename T>
+  const Option<T>& at() const&
+  {
+    return *this;
+  }
+
   friend std::vector<std::string_view>& operator>>(std::vector<std::string_view>& args,
                                                    type& t)
   {
@@ -57,7 +63,7 @@ public:
 
   friend std::ostream& operator<<(std::ostream& os, const type& t)
   {
-    return ((os << static_cast<const Options<Ts>&>(t)), ..., os);
+    return ((os << static_cast<const Option<Ts>&>(t)), ..., os);
   }
 };
 
@@ -70,6 +76,8 @@ public:
   using value_type = typename option_type::type;
 
   const value_type& value() const { return value_; }
+
+  operator const value_type&() const { return value_; }
 
   friend std::vector<std::string_view>& operator>>(std::vector<std::string_view>& args,
                                                    type& t)
@@ -86,7 +94,7 @@ public:
           throw std::runtime_error(std::string{ "required argument '" } + T::name +
                                    std::string{ "' missing value" });
         }
-        args.erase(it, ++it);
+        args.erase(it, it + 2); // N.B. [first, last)
         return args;
       }
     }

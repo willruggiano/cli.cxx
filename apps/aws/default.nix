@@ -1,12 +1,12 @@
 {
   stdenv,
   cmake,
-  cli,
+  cli-cxx,
   ...
 }:
 stdenv.mkDerivation {
   name = "aws";
   src = ./.;
   nativeBuildInputs = [cmake];
-  buildInputs = [cli];
+  buildInputs = [cli-cxx];
 }

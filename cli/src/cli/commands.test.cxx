@@ -1,12 +1,13 @@
 #include "cli/commands.hxx"
 #include "cli/options.hxx"
 
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <string_view>
+#include <vector>
 
 using namespace cli;
 

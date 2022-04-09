@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string_view>
 
 namespace cli::detail {
@@ -21,6 +22,8 @@ type_name()
   name = __FUNCSIG__;
   prefix = "auto __cdecl type_name<";
   suffix = ">(void)";
+#else
+#error : "unknown compiler"
 #endif
   name.remove_prefix(prefix.size());
   name.remove_suffix(suffix.size());

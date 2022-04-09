@@ -15,6 +15,7 @@ include(GNUInstallDirs)
 
 add_library(${PROJECT_NAME} STATIC
             ${CMAKE_CURRENT_SOURCE_DIR}/src/cli/parser.cxx)
+target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:DEBUG>)
 target_include_directories(
   ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
                          $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
@@ -51,3 +52,10 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/CliConfig.cmake
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
 include(SetupTesting)
+add_test_file(${CMAKE_CURRENT_SOURCE_DIR}/src/cli/commands.test.cxx)
+add_test_file(${CMAKE_CURRENT_SOURCE_DIR}/src/cli/context.test.cxx)
+add_test_file(${CMAKE_CURRENT_SOURCE_DIR}/src/cli/options.test.cxx)
+add_test_file(${CMAKE_CURRENT_SOURCE_DIR}/src/cli/traits.test.cxx)
+add_test_file(${CMAKE_CURRENT_SOURCE_DIR}/src/cli/type_enum.test.cxx)
+add_test_file(${CMAKE_CURRENT_SOURCE_DIR}/src/cli/type_name.test.cxx)
+add_test_file(${CMAKE_CURRENT_SOURCE_DIR}/src/cli/watch_method.test.cxx)

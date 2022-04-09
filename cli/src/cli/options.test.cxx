@@ -1,6 +1,5 @@
 #include "cli/options.hxx"
 
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
 #include <iostream>
@@ -72,6 +71,7 @@ TEST_CASE("Parse Options<Ts...> correctly")
   CHECK(name.value() == "Gandalf");
   CHECK(race.value() == "Wizard");
   CHECK(age.value() == 42);
+  CHECK(args.size() == 0);
 }
 
 TEST_CASE("Parse Options<Ts...> when argument order does not match compiled order")
@@ -101,4 +101,40 @@ TEST_CASE("Parse Option<T> throws exception when T is required")
   std::vector<std::string_view> args{};
   Options<Hometown> options;
   CHECK_THROWS_WITH(args >> options, "required argument '--hometown' missing");
+}
+
+TEST_CASE("Option<T> convertible to value_type")
+{
+  std::vector<std::string_view> args = { "--name", "Gandalf" };
+  Option<Name> option;
+  args >> option;
+
+  const std::string& name = option;
+
+  CHECK(name == "Gandalf");
+}
+
+TEST_CASE("Options<Ts...> convertible to Option<T> convertible to value_type")
+{
+  std::vector<std::string_view> args = { "--name", "Gandalf", "--age",
+                                         "42",     "--race",  "Wizard" };
+  Options<Name, Race, Age> options;
+  args >> options;
+
+  std::string name = options.at<Name>();
+  std::string race = options.at<Race>();
+  int age = options.at<Age>();
+
+  CHECK(name == "Gandalf");
+  CHECK(race == "Wizard");
+  CHECK(age == 42);
+
+  const auto& options_const = options;
+  std::string name_const = options.at<Name>();
+  std::string race_const = options.at<Race>();
+  int age_const = options.at<Age>();
+
+  CHECK(name_const == "Gandalf");
+  CHECK(race_const == "Wizard");
+  CHECK(age_const == 42);
 }
