@@ -14,10 +14,16 @@
     utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages."${system}";
       cli = pkgs.callPackage ./cli {};
+      aws = pkgs.callPackage ./aws {inherit cli;};
       hello = pkgs.callPackage ./apps/hello {inherit cli;};
     in rec {
-      apps.hello = utils.lib.mkApp {
-        drv = hello;
+      apps = {
+        aws = utils.lib.mkApp {
+          drv = aws;
+        };
+        hello = utils.lib.mkApp {
+          drv = hello;
+        };
       };
 
       checks = {
@@ -83,7 +89,7 @@
       };
 
       packages = {
-        inherit cli hello;
+        inherit cli aws hello;
       };
     });
 }

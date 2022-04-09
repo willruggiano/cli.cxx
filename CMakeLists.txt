@@ -7,4 +7,5 @@ set(CLI_MONO_BUILD
     CACHE BOOL "" FORCE)
 
 add_subdirectory(cli)
+add_subdirectory(apps/aws)
 add_subdirectory(apps/hello)
